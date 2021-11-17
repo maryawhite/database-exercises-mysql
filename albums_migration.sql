@@ -1,5 +1,8 @@
 USE codeup_test_db;
 
+# Write some SQL to drop a table named albums if it exists.
+DROP TABLE IF EXISTS albums;
+
 CREATE TABLE IF NOT EXISTS albums (
                                       id INT UNSIGNED NOT NULL AUTO_INCREMENT,
                                       artist_name VARCHAR(50) DEFAULT 'NONE',
