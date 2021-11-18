@@ -1,4 +1,5 @@
 USE codeup_test_db;
+TRUNCATE albums;
 
 INSERT INTO albums (artist_name, record_name, release_date, sales_mil, genre)
     VALUES('Michael Jackson', 'Thriller', 1982, 48.9, 'Pop, Post-disco, Funk, Rock'),
@@ -33,4 +34,6 @@ INSERT INTO albums (artist_name, record_name, release_date, sales_mil, genre)
         ('Santana', 'Supernatural', 1999, 20.5, 'Latin rock'),
         ('Guns N Roses', 'Appetite for Destruction', 1987, 21.9, 'Heavy metal, Hard rock'),
         ('Elton John', 'Goodbye Yellow Brick Road', 1973, 8.5, 'Rock, Pop rock, Glam rock');
+
+# mysql -u codeup_test_user -p < albums_seeder.sql
 
