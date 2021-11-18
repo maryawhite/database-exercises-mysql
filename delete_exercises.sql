@@ -5,6 +5,7 @@ DELETE FROM albums WHERE release_date > 1991;
 
 SELECT 'Albums with genre Disco' AS 'Genre Info';
 DELETE FROM albums WHERE genre = 'Disco';
+# SELECT * FROM albums WHERE genre LIKE '%Disco%'; another way to search
 
 SELECT 'albums by Whitney' AS 'albums by Whitney';
 DELETE FROM albums WHERE artist_name = 'Whitney Houston';
