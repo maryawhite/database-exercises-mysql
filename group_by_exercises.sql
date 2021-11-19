@@ -23,6 +23,14 @@ SELECT * FROM employees WHERE first_name = 'Irena'
                            OR first_name = 'Maya';
 SELECT COUNT(gender), gender FROM employees WHERE first_name = 'Irena' OR first_name = 'Vidya' OR first_name = 'Maya' GROUP BY gender;
 
+# find all employees who had their 30th anniversary in the last 30 days, or are about to have their 30th anniversary in the next 30 days.
+SELECT * FROM employees WHERE (dateDiff(CURDATE(), hire_date) BETWEEN 10920 AND 10980);
+
+# find all employees who are about to have their 30th anniversary in the next 30 days.
+SELECT * FROM employees WHERE (dateDiff(CURDATE(), hire_date) BETWEEN 10920 AND 10950);
+
+
+
 #lecture notes
 SELECT DISTINCT first_name
 FROM employees;
