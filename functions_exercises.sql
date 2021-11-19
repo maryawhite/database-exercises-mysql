@@ -1,50 +1,7 @@
 USE employees;
-## Modify your first query to order by first name. The first result should be Irena Reutenauer and the last result should be Vidya Demeyer.
-## Update the query to order by first name and then last name. The first result should now be Irena Acton and the last should be Vidya Boguraev.
-## Change the ORDER BY clause so that you order by last name before first name. Your first result should still be Irena Acton but now the last result should be Vidya Quittner
 
-SELECT * FROM employees WHERE first_name IN ('Irena', 'Vidya', 'Maya') ORDER BY first_name;
-SELECT * FROM employees WHERE first_name IN ('Irena', 'Vidya', 'Maya') ORDER BY first_name, last_name;
-SELECT * FROM employees WHERE first_name IN ('Irena', 'Vidya', 'Maya') ORDER BY last_name, first_name;
-
-
-## Update your queries for employees with 'E' in their last name to sort the results by their employee number. Your results should not change!
-## Now reverse the sort order for both queries and compare results.
-
-# Find all employees whose last name starts with 'E' — 7,330 rows
-SELECT * FROM employees WHERE last_name LIKE 'E%' ORDER BY emp_no ASC;
-
-SELECT * FROM employees WHERE last_name LIKE 'E%' ORDER BY emp_no DESC;
-
-
-
-# Find all employees with a 'q' in their last name — 1,873 rows.
-SELECT last_name FROM employees WHERE last_name LIKE '%q%';
-
-
-# Update your query for 'Irena', 'Vidya', or 'Maya' to use OR instead of IN — 709 rows.
-SELECT * FROM employees WHERE first_name = 'Irena'
-                           OR first_name = 'Vidya'
-                           OR first_name = 'Maya';
-
-
-# Add a condition to the previous query to find everybody with those names who is also male — 441 rows.
-SELECT * FROM employees WHERE gender = 'M'
-                          AND (
-                first_name = 'Irena'
-            OR first_name = 'Vidya'
-            OR first_name = 'Maya'
-        );
-
-SELECT CONCAT (first_name , last_name) FROM employees WHERE last_name LIKE 'E%' OR last_name LIKE '%E';
-
-
-# Duplicate the previous query and update it to find all employees whose last name starts and ends with 'E' — 899 rows
-SELECT last_name FROM employees WHERE last_name LIKE 'E%' AND last_name LIKE '%E';
-
-
-# Find all employees with a 'q' in their last name but not 'qu' — 547 rows.
-SELECT last_name FROM employees WHERE last_name LIKE '%q%' AND last_name NOT LIKE '%qu%';
+#Use concat() to combine their first and last name together as a single column in your results.
+SELECT CONCAT (first_name,' ', last_name) AS 'FULL EMPLOYEE NAME' FROM employees WHERE last_name LIKE 'E%' OR last_name LIKE '%E';
 
 # Find all employees born on Christmas
 SELECT * FROM employees WHERE month(birth_date) = 12 AND day(birth_date) = 25;
@@ -53,4 +10,20 @@ SELECT * FROM employees WHERE month(birth_date) = 12 AND day(birth_date) = 25;
 SELECT * FROM employees WHERE year(hire_date) BETWEEN 1990 AND 1999 AND (month(birth_date) = 12 AND day(birth_date) = 25);
 
 # Change the query for employees hired in the 90s and born on Christmas such that the first result is the oldest employee who was hired last. It should be Khun Bernini
+# dob ASC and hire date ASC
+SELECT * FROM employees WHERE month(birth_date) = 12 AND day(birth_date) = 25 ORDER BY hire_date DESC, birth_date ASC;
+
+
 # For your query of employees born on Christmas and hired in the 90s, use datediff() to find how many days they have been working at the company (Hint: You might also need to use now() or curdate()).
+SELECT last_name, dateDiff(CURDATE(), hire_date) AS'NUMBER OF DAYS WORKING HERE' FROM employees WHERE year(hire_date) BETWEEN 1990 AND 1999 AND (month(birth_date) = 12 AND day(birth_date) = 25);
+
+
+
+# bonus note from lecture limit to the first 10 names
+SELECT CONCAT (first_name,' ', last_name) AS 'FULL EMPLOYEE NAME' FROM employees WHERE last_name LIKE 'E%' OR last_name LIKE '%E' LIMIT 10;
+# find the next 10
+SELECT CONCAT (first_name,' ', last_name) AS 'FULL EMPLOYEE NAME' FROM employees WHERE last_name LIKE 'E%' OR last_name LIKE '%E' LIMIT 10 OFFSET 10;
+# find a list of first names like Ma, limit to 10
+SELECT CONCAT (first_name,' ', last_name) AS 'FULL EMPLOYEE NAME' FROM employees WHERE first_name LIKE 'Ma%' LIMIT 10;
+# lecture notes
+SELECT * FROM employees WHERE year(birth_date) BETWEEN 1950 and 1955 AND month(birth_date) = 8 AND day(birth_date) = 10 LIMIT 20;
