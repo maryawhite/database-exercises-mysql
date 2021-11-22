@@ -23,4 +23,4 @@ CREATE TABLE IF NOT EXISTS users (
 # mysql -u root -p < lecture_roles_users.sql
 # After running the script, connect to the MySQL server as you have done previously.
 #
-# USE the join_test_db and use DESCRIBE and SHOW CREATE to verify that your table has been successfully created.
+# USE the join_test_db and use DESCRIBE and SHOW CREATE TABLE to verify that your table has been successfully created.
