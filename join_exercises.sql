@@ -47,15 +47,37 @@ ORDER BY dept_name;
 
 ##
 #Bonus Find the names of all current employees, their department name, and their current manager's name .
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee', d.dept_name AS 'Department Name', CONCAT(e.first_name, ' ', e.last_name) AS 'Department Manager'
-FROM employees as e
-    JOIN current_dept_emp cde ON e.emp_no = cde.emp_no
-         JOIN dept_manager AS dm
-              ON dm.emp_no = e.emp_no
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee', d.dept_name AS 'Department Name', CONCAT(e2.first_name, ' ', e2.last_name) AS 'Department Manager'
+FROM employees AS e
+        JOIN employees AS e2
+            ON e.emp_no = e2.emp_no
+        JOIN dept_manager dm
+            on dm.emp_no = e2.emp_no
+               LEFT JOIN dept_emp de
+             ON e.emp_no = de.emp_no
+        LEFT JOIN departments d
+            ON de.dept_no = d.dept_no
+        LEFT JOIN titles t
+            ON e.emp_no = t.emp_no
+WHERE title = 'Manager'
+ORDER BY dept_name;
+
+#closer, but still getting 2 million results should be 240,124
+SELECT e2.emp_no, CONCAT(e2.first_name, ' ', e2.last_name) AS EMPLOYEE, d.dept_name AS DEPARTMENT, CONCAT(e1.first_name, ' ', e1.last_name) AS MANAGER
+FROM employees e1
+         JOIN dept_manager dm
+              ON e1.emp_no = dm.emp_no
+         JOIN employees e2
+              ON e1.emp_no = dm.emp_no
          JOIN departments d
               ON dm.dept_no = d.dept_no
-WHERE dm.to_date = '9999-01-01'
-ORDER BY dept_name;
+         JOIN dept_emp de
+              ON e2.emp_no = de.emp_no
+         JOIN titles t
+             ON e1.emp_no = t.emp_no
+WHERE dm.to_date = '9999-01-01' AND de.to_date = '9999-01-01' AND title = 'Manager' AND t.to_date = '9999-01-01'
+ORDER BY dept_name LIMIT 40;
+
 
 
 #NOTES
@@ -64,5 +86,6 @@ SELECT * FROM employees LIMIT 10;
 SELECT * FROM departments LIMIT 10;
 SELECT * FROM dept_emp WHERE to_date = '9999-01-01' LIMIT 10;
 SELECT * FROM dept_manager WHERE to_date = '9999-01-01' LIMIT 10;
-
+SELECT * FROM titles WHERE to_date = '9999-01-01' AND title = 'Manager';
+SELECT * FROM dept_emp WHERE to_date = '9999-01-01' LIMIT 15;
 
