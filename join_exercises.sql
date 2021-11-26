@@ -47,10 +47,9 @@ ORDER BY dept_name;
 
 ##
 #Bonus Find the names of all current employees, their department name, and their current manager's name .
-SELECT sub.emp_no, CONCAT(sub.first_name, ' ', sub.last_name) AS EMPLOYEE, d2.dept_name AS DEPARTMENT,
+SELECT sub.emp_no, CONCAT(sub.first_name, ' ', sub.last_name) AS EMPLOYEE, d1.dept_name AS DEPARTMENT,
        CONCAT(sup.first_name, ' ', sup.last_name) AS MANAGER
 FROM departments as d1
-    JOIN departments as d2 ON d1.dept_no = d2.dept_no
     JOIN dept_manager ON d1.dept_no = dept_manager.dept_no
     JOIN dept_emp ON d1.dept_no = dept_emp.dept_no
     JOIN employees sub on sub.emp_no = dept_emp.emp_no
