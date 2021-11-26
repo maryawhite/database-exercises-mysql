@@ -47,48 +47,16 @@ ORDER BY dept_name;
 
 ##
 #Bonus Find the names of all current employees, their department name, and their current manager's name .
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee', d.dept_name AS 'Department Name',
-       CONCAT(e2.first_name, ' ', e2.last_name) AS 'Department Manager'
-FROM employees AS e
-        JOIN employees AS e2
-            ON e.emp_no = e2.emp_no
-        JOIN dept_manager dm
-            on dm.emp_no = e2.emp_no
-               LEFT JOIN dept_emp de
-             ON e.emp_no = de.emp_no
-        LEFT JOIN departments d
-            ON de.dept_no = d.dept_no
-        LEFT JOIN titles t
-            ON e.emp_no = t.emp_no
-WHERE title = 'Manager'
-ORDER BY dept_name;
-
-#maybe...results should be 240,124
-SELECT e2.emp_no, CONCAT(e2.first_name, ' ', e2.last_name) AS EMPLOYEE, d.dept_name AS DEPARTMENT,
-       CONCAT(e1.first_name, ' ', e1.last_name) AS MANAGER
-FROM employees e1
-         JOIN dept_manager dm
-              ON e1.emp_no = dm.emp_no
-         JOIN employees e2
-              ON e1.emp_no = dm.emp_no
-         JOIN dept_emp de
-              ON e2.emp_no = de.emp_no
-         JOIN departments d
-              ON dm.dept_no = d.dept_no AND d.dept_no = de.dept_no
-WHERE dm.to_date = '9999-01-01' AND de.to_date = '9999-01-01'
-ORDER BY dept_name LIMIT 10;
-
-#closer, but still getting 2 million results should be 240,124
-USE employees;
-SELECT employees1.emp_no, CONCAT(employees1.first_name, ' ', employees1.last_name) AS EMPLOYEE, departments.dept_name AS DEPARTMENT,
-       CONCAT(employees2.first_name, ' ', employees2.last_name) AS MANAGER
-FROM employees AS employees1
-    JOIN dept_emp ON employees1.emp_no = dept_emp.emp_no
-    JOIN employees AS employees2 ON employees2.emp_no = employees1.emp_no
-    JOIN dept_manager ON dept_manager.emp_no = employees2.emp_no
-    JOIN departments ON dept_manager.dept_no = departments.dept_no
+SELECT sub.emp_no, CONCAT(sub.first_name, ' ', sub.last_name) AS EMPLOYEE, d2.dept_name AS DEPARTMENT,
+       CONCAT(sup.first_name, ' ', sup.last_name) AS MANAGER
+FROM departments as d1
+    JOIN departments as d2 ON d1.dept_no = d2.dept_no
+    JOIN dept_manager ON d1.dept_no = dept_manager.dept_no
+    JOIN dept_emp ON d1.dept_no = dept_emp.dept_no
+    JOIN employees sub on sub.emp_no = dept_emp.emp_no
+    JOIN employees sup ON dept_manager.emp_no = sup.emp_no
 WHERE dept_manager.to_date = '9999-01-01' AND dept_emp.to_date = '9999-01-01'
-ORDER BY dept_name LIMIT 45;
+ORDER BY DEPARTMENT, sub.emp_no LIMIT 240125; #the correct answer has 240124 rows
 
 
 
