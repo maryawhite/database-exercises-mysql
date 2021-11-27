@@ -23,11 +23,17 @@ WHERE gender = 'F' AND emp_no IN (
 
 #Bonus
 #Find all the department names that currently have female managers.
-SELECT dept_name FROM departments; #this finds the 9 departments
-
+SELECT employees.emp_no, departments.dept_name FROM employees
+    JOIN dept_manager dm on employees.emp_no = dm.emp_no
+    JOIN departments ON dm.dept_no = departments.dept_no
+WHERE employees.gender = 'F' AND dm.to_date > NOW();
 
 
 #Find the first and last name of the employee with the highest salary.
+SELECT e.emp_no, e.first_name, e.last_name, salary FROM salaries
+JOIN employees e on e.emp_no = salaries.emp_no
+order by salary DESC
+LIMIT 1;
 
 
 
