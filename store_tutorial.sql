@@ -115,13 +115,17 @@ FROM customers
 ORDER BY customers.last_name;
 
 #using multiple JOINs
-SELECT customers.first_name, customers.last_name, orders.order_date, products.name
+USE myStore;
+SELECT customers.first_name, customers.last_name, orders.order_date, products.name, balance
 FROM orders
     INNER JOIN products ON orders.product_id = products.id  #which table do you want to join with orders and what field do they have in common
     INNER JOIN customers ON orders.customer_id = customers.id #which other table do you want to join with orders and what field do they have in common
 ORDER BY orders.order_number;
 
+INSERT INTO customers (first_name, last_name, email, password, street_address, city, state, zip, balance)
+VALUES('Brandy', 'Oaks', 'brandy@email.com', 'ssapdrop', '987 West Ave', 'Tampa', 'FL', '33606', 0);
 
+SELECT * FROM customers;
 
 
 
