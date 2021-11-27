@@ -35,6 +35,37 @@ JOIN employees e on e.emp_no = salaries.emp_no
 order by salary DESC
 LIMIT 1;
 
+#find the current average salary of all employees
+SELECT AVG(salary) AS AVG_SALARY FROM salaries WHERE to_date > NOW();  #72012.2359
+
+#find all the employees who have a salary higher than the average
+SELECT employees.emp_no, first_name, last_name, s.salary FROM employees
+JOIN salaries s on employees.emp_no = s.emp_no
+WHERE s.salary > (SELECT AVG(salary) FROM salaries WHERE to_date > NOW())
+AND s.to_date > NOW()
+ORDER BY s.salary DESC
+LIMIT 100;
+
+
+#find employees who have a salary between 72000 and 72050
+SELECT employees.emp_no, first_name, last_name, s.salary FROM employees
+JOIN salaries s on employees.emp_no = s.emp_no
+WHERE s.salary BETWEEN 72000 AND 72050
+  AND s.to_date > NOW()
+ORDER BY s.salary
+LIMIT 50;
+
+#find employees who have a salary above 150000, show what dept they work in
+SELECT employees.emp_no, first_name, last_name, s.salary, dept_name, gender FROM employees
+JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
+JOIN departments d on dept_emp.dept_no = d.dept_no
+JOIN salaries s on employees.emp_no = s.emp_no
+WHERE s.salary > 150000 AND s.to_date > NOW()
+ORDER BY s.salary DESC
+LIMIT 10;
+
+
+
 
 
 ##lecture notes
